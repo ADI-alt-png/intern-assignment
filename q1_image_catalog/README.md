@@ -1,15 +1,19 @@
 # Q1 — Image Catalog, Detection, Metadata & Composites
 
-Run: `pip install pillow numpy scipy` then `python catalog.py`.
+Run: `pip install -r requirements.txt` then `python demo.py`.
 It ingests all 8 test images, asserts every scenario below, and writes
-`det_*.png` (detections with boxes) + `comp1.png` / `comp2.png` (composites).
+`outputs/det_*.png` (detections with boxes) + `outputs/comp1.png` /
+`outputs/comp2.png` (composites).
 
 ## Architecture
 
-One file, three layers: `detect_objects()` (vision) → `Catalog`
-(entries + manual correction + provenance) → `make_test_images()` (test data).
-A `demo()` self-check asserts all 7 brief scenarios, so the examples *are*
-the tests.
+```
+detector.py   vision layer: background removal + components + heuristics
+catalog.py    entries + manual correction + metadata + composite generation
+data.py       deterministic test-image factory (8 brief images, no downloads)
+demo.py       runnable check asserting all 7 brief scenarios + visual proof
+outputs/      annotated detections and composites
+```
 
 ## Algorithms
 
@@ -31,7 +35,7 @@ the tests.
   pasted on a grid; positions/scales/prompt are stored as provenance and the
   composite is re-ingested through detection as its own entry.
 
-## Examples covered (all asserted in `demo()`)
+## Examples covered (all asserted in `demo.py`)
 
 1. Successful detection — `apple`→1 red object, `shapes`→4, `colors`→5,
    `apple_orange`→2, `boy`/`girl`→1 each with clothing palette,
